@@ -31,7 +31,7 @@ public class ProxySpout extends BaseRichSpout{
 		// TODO Auto-generated method stub
 		_collector = collector;
 		try {
-			_serverSocket = new ServerSocket(_port);
+			_serverSocket = new ServerSocket(31000);
 			System.out.println("socket........ " + _port);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
