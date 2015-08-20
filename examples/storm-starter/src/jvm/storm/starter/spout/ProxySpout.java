@@ -29,26 +29,25 @@ public class ProxySpout extends BaseRichSpout{
 	public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
 		// TODO Auto-generated method stub
 		_collector = collector;
-//		try {
-//			_serverSocket = new ServerSocket(_port);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			_serverSocket = new ServerSocket(_port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void nextTuple() {
 		// TODO Auto-generated method stub
-		//try {
-			//_clientSocket = _serverSocket.accept();
-			//InputStream incomingIS = _clientSocket.getInputStream();
-			String a = "abc";
-			_collector.emit(new Values(a));
-	//	} catch (IOException e) {
+		try {
+			_clientSocket = _serverSocket.accept();
+			InputStream incomingIS = _clientSocket.getInputStream();
+			_collector.emit(new Values(incomingIS));
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
