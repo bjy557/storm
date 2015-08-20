@@ -23,7 +23,7 @@ public class ProxySpout extends BaseRichSpout{
 	
 	public ProxySpout(int port){
 		_port = port;
-		System.out.println("portttttt");
+		System.out.println("portttttt : " + _port);
 	}
 
 	@Override
