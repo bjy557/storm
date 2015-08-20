@@ -43,7 +43,7 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("start listen....");
+			System.out.println("start listen.... " + _serverSocket.getLocalPort() + " / " + _serverSocket.isBound());
 			_clientSocket = _serverSocket.accept();
 			InputStream incomingIS = _clientSocket.getInputStream();
 			_collector.emit(new Values(incomingIS));
