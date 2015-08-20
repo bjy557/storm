@@ -32,7 +32,10 @@ public class ProxySpout extends BaseRichSpout{
 		_collector = collector;
 		try {
 			_serverSocket = new ServerSocket(31000);
-			System.out.println("socket........ " + _port);
+			
+			System.out.println("start listen.... " + _serverSocket.getLocalPort() + " / " + _serverSocket.isBound());
+			_clientSocket = _serverSocket.accept();
+			System.out.println("accept......................");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,8 +46,7 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("start listen.... " + _serverSocket.getLocalPort() + " / " + _serverSocket.isBound());
-			_clientSocket = _serverSocket.accept();
+			System.out.println("tuple.................");
 			InputStream incomingIS = _clientSocket.getInputStream();
 			_collector.emit(new Values(incomingIS));
 		} catch (IOException e) {
@@ -56,6 +58,7 @@ public class ProxySpout extends BaseRichSpout{
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		// TODO Auto-generated method stub
+		System.out.println("declare....................");
 		declarer.declare(new Fields("proxy"));
 	}
 }
