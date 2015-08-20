@@ -13,7 +13,7 @@ public class AverageTopology {
 
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		ProxySpout spout = new ProxySpout(512);
+		ProxySpout spout = new ProxySpout(31000);
 		CalcBolt bolt = new CalcBolt();
 		
 		TopologyBuilder builder = new TopologyBuilder();
@@ -22,7 +22,7 @@ public class AverageTopology {
 		builder.setBolt(CALC_BOLT_ID, bolt).globalGrouping(PROXY_SPOUT_ID);
 		
 		Config conf = new Config();
-		conf.setDebug(true);
+		conf.setDebug(false);
 		
 		StormRunner.runTopologyRemotely(builder.createTopology(), "test", conf);
 	}
