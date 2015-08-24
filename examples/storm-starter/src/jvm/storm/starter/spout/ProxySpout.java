@@ -48,6 +48,7 @@ public class ProxySpout extends BaseRichSpout{
 		try {
 			System.out.println("tuple.................");
 			InputStream incomingIS = _clientSocket.getInputStream();
+			System.out.println("data is.........." + incomingIS.toString());
 			_collector.emit(new Values(incomingIS));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
