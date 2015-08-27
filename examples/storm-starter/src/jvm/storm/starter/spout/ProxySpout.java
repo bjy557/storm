@@ -25,7 +25,7 @@ public class ProxySpout extends BaseRichSpout{
 	
 	public ProxySpout(int port){
 		_port = port;
-		System.out.println("portttttt : " + _port);
+		System.out.println("port : " + _port);
 	}
 
 	@Override
@@ -49,9 +49,9 @@ public class ProxySpout extends BaseRichSpout{
 		// TODO Auto-generated method stub
 		try {
 			String word;
-//			System.out.println("tuple.................");
+			System.out.println("tuple.................");
 			InputStream incomingIS = _clientSocket.getInputStream();
-//			System.out.println("data is.........." + incomingIS.toString());
+			System.out.println("data is.........." + incomingIS.toString());
 			word = getStringFromInputStream(incomingIS);
 			_collector.emit(new Values(word));
 		} catch (IOException e) {
@@ -93,7 +93,6 @@ public class ProxySpout extends BaseRichSpout{
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		// TODO Auto-generated method stub
-		System.out.println("declare....................");
 		declarer.declare(new Fields("proxy"));
 	}
 }
