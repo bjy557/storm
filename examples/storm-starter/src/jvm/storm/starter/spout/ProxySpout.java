@@ -46,10 +46,11 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
+			String aa = "testtesttest";
 			System.out.println("tuple.................");
 			InputStream incomingIS = _clientSocket.getInputStream();
 			System.out.println("data is.........." + incomingIS.toString());
-			_collector.emit(new Values(incomingIS));
+			_collector.emit(new Values(aa));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

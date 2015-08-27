@@ -10,9 +10,7 @@ public class CalcBolt extends BaseBasicBolt{
 	@Override
 	public void execute(Tuple tuple, BasicOutputCollector collector) {
 		// TODO Auto-generated method stub
-		String word;
-		word = tuple.getString(0);
-		System.out.println("my name is..............  " + word + "  end....................");
+		System.out.println("my name is..............  " + tuple.getString(0) + "  end....................");
 	}
 
 	@Override
