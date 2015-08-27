@@ -48,20 +48,18 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("tuple.................");
+//			System.out.println("tuple.................");
 			InputStream is = _clientSocket.getInputStream();
-			System.out.println("data is.........." + is.toString());
-//			word = getStringFromInputStream(incomingIS);
+//			System.out.println("data is.........." + is.toString());
 			
-			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			int nRead;
-			byte[] data = new byte[16384];
-			while((nRead = is.read(data)) != -1) {
-				buffer.write(data, 0, nRead);
+			int i;
+			StringBuffer buf = new StringBuffer();
+			byte[] b = new byte[4096];
+			while( (i = is.read(b)) != -1) {
+				buf.append(new String(b, 0, i));
 			}
-			buffer.flush();
 			
-			String word = new String(buffer.toByteArray());
+			String word = buf.toString();
 			
 			_collector.emit(new Values(word));
 		} catch (IOException e) {
@@ -69,37 +67,7 @@ public class ProxySpout extends BaseRichSpout{
 			e.printStackTrace();
 		}
 	}
-	
-	// convert InputStream to String
-//	public String getStringFromInputStream(InputStream is) {
-//
-//		BufferedReader br = null;
-//		StringBuilder sb = new StringBuilder();
-//
-//		String line;
-//		try {
-//
-//			br = new BufferedReader(new InputStreamReader(is));
-//			while ((line = br.readLine()) != null) {
-//				sb.append(line);
-//			}
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (br != null) {
-//				try {
-//					br.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//
-//		return sb.toString();
-//
-//	}
-	
+		
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
 		// TODO Auto-generated method stub
