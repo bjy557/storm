@@ -52,16 +52,12 @@ public class ProxySpout extends BaseRichSpout{
 			InputStream is = _clientSocket.getInputStream();
 //			System.out.println("data is.........." + is.toString());
 			
-			int i;
-			StringBuffer buf = new StringBuffer();
 			byte[] b = new byte[4096];
-			while( (i = is.read(b)) != -1) {
-				buf.append(new String(b, 0, i));
-			}
+			int bytesRead = is.read(b);
 			
-			String word = buf.toString();
+			String word = new String(b,0,bytesRead, "UTF-8");
 			
-			System.out.println("word is.................. " +word +" end.....");
+			System.out.println("word is.................. " +word +" ddd");
 			
 			_collector.emit(new Values(word));
 		} catch (IOException e) {
