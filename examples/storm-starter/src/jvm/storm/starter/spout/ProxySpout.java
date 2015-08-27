@@ -53,7 +53,7 @@ public class ProxySpout extends BaseRichSpout{
 //			System.out.println("data is.........." + is.toString());
 			
 			System.out.println("abc");
-			String word = is.readUTF();
+			String word = is.readUTF(is);
 			System.out.println("def");
 			
 			_collector.emit(new Values(word));
