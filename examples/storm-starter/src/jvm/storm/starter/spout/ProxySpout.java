@@ -61,6 +61,8 @@ public class ProxySpout extends BaseRichSpout{
 			
 			String word = buf.toString();
 			
+			System.out.println("word is.................. " +word +" end.....");
+			
 			_collector.emit(new Values(word));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
