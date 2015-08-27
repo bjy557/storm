@@ -1,9 +1,8 @@
 package storm.starter.spout;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import java.io.*;
@@ -47,22 +46,20 @@ public class ProxySpout extends BaseRichSpout{
 	@Override
 	public void nextTuple() {
 		// TODO Auto-generated method stub
-		try {
-//			System.out.println("tuple.................");
-			InputStream is = _clientSocket.getInputStream();
-//			System.out.println("data is.........." + is.toString());
+		try(InputStream is = _clientSocket.getInputStream();
+			BufferedReader r = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+			String str = null;
+			StringBuilder sb = new StringBuilder(8192);
+			while((str = r.readLine())!= null) {
+				sb.append(str);
+			}
 			
-			byte[] b = new byte[4096];
-			int bytesRead = is.read(b);
-			
-			String word = new String(b,0,bytesRead, "UTF-8");
-			
-			System.out.println("word is.................. " +word +" ddd");
+			String word = sb.toString();
 			
 			_collector.emit(new Values(word));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+		} catch(IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 		
