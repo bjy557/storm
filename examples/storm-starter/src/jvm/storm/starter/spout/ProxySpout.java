@@ -48,19 +48,20 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-			String word = "test";
 			System.out.println("tuple.................");
-			InputStream incomingIS = _clientSocket.getInputStream();
-			System.out.println("data is.........." + incomingIS.toString());
+			InputStream is = _clientSocket.getInputStream();
+			System.out.println("data is.........." + is.toString());
 //			word = getStringFromInputStream(incomingIS);
 			
-			StringBuffer sb = new StringBuffer();
-			byte[] b = new byte[4096];
-			for(int n; (n = incomingIS.read(b)) != -1;) {
-				sb.append(new String(b, 0, n));
+			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+			int nRead;
+			byte[] data = new byte[16384];
+			while((nRead = is.read(data)) != -1) {
+				buffer.write(data, 0, nRead);
 			}
+			buffer.flush();
 			
-			word = sb.toString();
+			String word = new String(buffer.toByteArray());
 			
 			_collector.emit(new Values(word));
 		} catch (IOException e) {
