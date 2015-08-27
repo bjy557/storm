@@ -48,11 +48,11 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-			String word;
+			String word = "test";
 			System.out.println("tuple.................");
 			InputStream incomingIS = _clientSocket.getInputStream();
 			System.out.println("data is.........." + incomingIS.toString());
-			word = getStringFromInputStream(incomingIS);
+//			word = getStringFromInputStream(incomingIS);
 			_collector.emit(new Values(word));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -61,34 +61,34 @@ public class ProxySpout extends BaseRichSpout{
 	}
 	
 	// convert InputStream to String
-	public String getStringFromInputStream(InputStream is) {
-
-		BufferedReader br = null;
-		StringBuilder sb = new StringBuilder();
-
-		String line;
-		try {
-
-			br = new BufferedReader(new InputStreamReader(is));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return sb.toString();
-
-	}
+//	public String getStringFromInputStream(InputStream is) {
+//
+//		BufferedReader br = null;
+//		StringBuilder sb = new StringBuilder();
+//
+//		String line;
+//		try {
+//
+//			br = new BufferedReader(new InputStreamReader(is));
+//			while ((line = br.readLine()) != null) {
+//				sb.append(line);
+//			}
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (br != null) {
+//				try {
+//					br.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//
+//		return sb.toString();
+//
+//	}
 	
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
