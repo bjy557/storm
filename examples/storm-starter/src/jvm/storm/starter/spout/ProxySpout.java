@@ -45,17 +45,20 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-			_clientSocket = _serverSocket.accept();
 			
-//			System.out.println("tuple.................");
-			DataInputStream is = new DataInputStream(_clientSocket.getInputStream());
-//			System.out.println("data is.........." + is.toString());
-		
-			if(is.available() != 0) {
-				System.out.println("abc");
-				String word = is.readUTF();
-				System.out.println(word);
-				_collector.emit(new Values(word));
+			while(true){
+				_clientSocket = _serverSocket.accept();
+				
+//				System.out.println("tuple.................");
+				DataInputStream is = new DataInputStream(_clientSocket.getInputStream());
+//				System.out.println("data is.........." + is.toString());
+			
+				if(is.available() != 0) {
+					System.out.println("abc");
+					String word = is.readUTF();
+					System.out.println(word);
+					_collector.emit(new Values(word));
+				}
 			}
 			
 		} catch (IOException e) {
