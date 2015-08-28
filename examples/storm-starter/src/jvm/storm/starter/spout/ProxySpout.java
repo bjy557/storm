@@ -35,9 +35,6 @@ public class ProxySpout extends BaseRichSpout{
 		try {
 			_serverSocket = new ServerSocket(31000);
 			
-			System.out.println("start listen.... " + _serverSocket.getLocalPort() + " / " + _serverSocket.isBound());
-			_clientSocket = _serverSocket.accept();
-			System.out.println("accept......................");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,15 +45,19 @@ public class ProxySpout extends BaseRichSpout{
 	public void nextTuple() {
 		// TODO Auto-generated method stub
 		try {
-//			System.out.println("tuple.................");
-			DataInputStream is = new DataInputStream(_clientSocket.getInputStream());
-//			System.out.println("data is.........." + is.toString());
+			while(true){
+				_clientSocket = _serverSocket.accept();
+				
+//				System.out.println("tuple.................");
+				DataInputStream is = new DataInputStream(_clientSocket.getInputStream());
+//				System.out.println("data is.........." + is.toString());
 			
-			if(is.available() != 0) {
-				System.out.println("abc");
-				String word = is.readUTF();
-				System.out.println(word);
-				_collector.emit(new Values(word));
+				if(is.available() != 0) {
+					System.out.println("abc");
+					String word = is.readUTF();
+					System.out.println(word);
+					_collector.emit(new Values(word));
+				}
 			}
 			
 		} catch (IOException e) {
