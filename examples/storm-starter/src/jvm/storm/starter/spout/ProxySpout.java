@@ -51,7 +51,7 @@ public class ProxySpout extends BaseRichSpout{
 		
 			if(is.available() != 0) {
 				String word = is.readUTF();
-				System.out.println(word);
+				System.out.println("Socket data is..." + word);
 				_collector.emit(new Values(word));
 			}
 			
