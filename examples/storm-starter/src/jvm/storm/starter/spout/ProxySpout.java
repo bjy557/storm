@@ -50,12 +50,12 @@ public class ProxySpout extends BaseRichSpout{
 			_clientSocket = _serverSocket.accept();
 			DataInputStream is = new DataInputStream(_clientSocket.getInputStream());
 		
-			if(is.available() != 0) {
+//			if(is.available() != 0) {
 				System.out.println("data is coming...");
 				String word = is.readUTF();
 				System.out.println(word);
 				_collector.emit(new Values(word));
-			}
+//			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
