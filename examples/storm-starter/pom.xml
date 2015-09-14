@@ -81,6 +81,20 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
+    <dependency>
+      <groupId>ren</groupId>
+      <artifactId>rengine</artifactId>
+      <version>1.0.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/Lib/REngine.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>rserv</groupId>
+      <artifactId>rserveengine</artifactId>
+      <version>1.0.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/Lib/RserveEngine.jar</systemPath>
+    </dependency>
   </dependencies>
 
   <build>
