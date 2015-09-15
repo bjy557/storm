@@ -82,18 +82,14 @@
       <artifactId>guava</artifactId>
     </dependency>
     <dependency>
-      <groupId>ren</groupId>
-      <artifactId>rengine</artifactId>
-      <version>1.0.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/Lib/REngine.jar</systemPath>
+	  <groupId>org.nuiton.thirdparty</groupId>
+  	  <artifactId>REngine</artifactId>
+   	  <version>1.7-3</version>
     </dependency>
     <dependency>
-      <groupId>rserv</groupId>
-      <artifactId>rserveengine</artifactId>
-      <version>1.0.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/Lib/RserveEngine.jar</systemPath>
+	  <groupId>org.nuiton.thirdparty</groupId>
+	  <artifactId>Rserve</artifactId>
+	  <version>1.7-3</version>
     </dependency>
   </dependencies>
 
