@@ -29,7 +29,7 @@ public class CalcBolt extends BaseBasicBolt{
 			s_mean = String.valueOf(mean);
 			System.out.println("Receive data is...  " + temp);
 			
-			REXP data = RQuery(MASTER, "mean(c(" + s_mean + temp +"))");
+			REXP data = RQuery(MASTER, "mean(c(" + s_mean+ "," + temp +"))");
 			String[] result = data.asStrings();
 			
 			for(int i=0 ; i< result.length ; i++) {
