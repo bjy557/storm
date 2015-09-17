@@ -16,6 +16,7 @@ public class CalcBolt extends BaseBasicBolt{
 	
 	static int mean = 0;
 	
+	static String s_mean = "";
 	static String temp = "";
 	
 	static RConnection MASTER = RConnect(HOST, PORT);
@@ -25,9 +26,10 @@ public class CalcBolt extends BaseBasicBolt{
 		// TODO Auto-generated method stub
 		try {
 			temp = tuple.getString(0);
+			s_mean = String.valueOf(mean);
 			System.out.println("Receive data is...  " + temp);
 			
-			REXP data = RQuery(MASTER, "mean(c(" + mean + Integer.parseInt(temp) + "))");
+			REXP data = RQuery(MASTER, "mean(c(" + s_mean + temp +"))");
 			String[] result = data.asStrings();
 			
 			for(int i=0 ; i< result.length ; i++) {
