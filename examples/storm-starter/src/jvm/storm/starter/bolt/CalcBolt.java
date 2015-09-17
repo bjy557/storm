@@ -14,15 +14,20 @@ public class CalcBolt extends BaseBasicBolt{
 	static String HOST = "163.180.117.72";
 	static int PORT = 6311;
 	
+	static int mean = 0;
+	
+	static String temp = "";
+	
 	static RConnection MASTER = RConnect(HOST, PORT);
 	
 	@Override
 	public void execute(Tuple tuple, BasicOutputCollector collector){
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("Receive data is...  " + tuple.getString(0));
+			temp = tuple.getString(0);
+			System.out.println("Receive data is...  " + temp);
 			
-			REXP data = RQuery(MASTER, "mean(c(1,2,3,4,5))");
+			REXP data = RQuery(MASTER, "mean(c(" + mean + Integer.parseInt(temp) + "))");
 			String[] result = data.asStrings();
 			
 			for(int i=0 ; i< result.length ; i++) {
