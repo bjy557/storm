@@ -22,7 +22,7 @@ public class CalcBolt extends BaseBasicBolt{
 		try {
 			System.out.println("Receive data is...  " + tuple.getString(0));
 			
-			REXP data = RQuery(MASTER, "summary(c(12,354,354,654,321,684,315,351))");
+			REXP data = RQuery(MASTER, "mean(c(1,2,3,4,5))");
 			String[] result = data.asStrings();
 			
 			for(int i=0 ; i< result.length ; i++) {
