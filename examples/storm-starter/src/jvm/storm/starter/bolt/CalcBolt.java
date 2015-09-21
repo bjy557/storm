@@ -36,6 +36,15 @@ public class CalcBolt extends BaseBasicBolt{
 	DB db = null;
 	/********************************************************************/
 	
+	// save mean value change to string
+	static String s_mean = "";
+		
+	// save receive data
+	static String r_data = "";
+		
+	// get mean value from DB
+	static int mean = 0;
+	
 	public int mongo(String ip, int port, String dbname) throws Exception{
 		m_cli = new MongoClient(new ServerAddress(ip,port));
 		db = m_cli.getDB(dbname);
@@ -48,26 +57,19 @@ public class CalcBolt extends BaseBasicBolt{
 		for(DBObject doc : cur) {
         	a = Integer.parseInt(doc.get("mean").toString());
         }
-		
-		BasicDBObject newDocument = new BasicDBObject();
-        newDocument.put("mean", 100);
-        
-        BasicDBObject searchQuery = new BasicDBObject().append("mean",140);
-        
-        coll.update(searchQuery, newDocument);
         
        return a;
 	}
 	
-	// save mean value change to string
-	static String s_mean = "";
-	
-	// save receive data
-	static String r_data = "";
-	
-	// get mean value from DB
-	static int mean = 0;
-	
+	public void update(String result)
+	{
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("mean", Integer.parseInt(result));
+		BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
+		
+		coll.update(searchQuery, newDocument);
+	}
+
 	@Override
 	public void execute(Tuple tuple, BasicOutputCollector collector){
 		// TODO Auto-generated method stub
@@ -86,11 +88,8 @@ public class CalcBolt extends BaseBasicBolt{
 				System.out.println(result[i]);
 			}
 			
-			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.put("mean", Integer.getInteger(result[0]));
-			BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
+			update(result[0]);
 			
-			coll.update(searchQuery, newDocument);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("error!!!!!!");
