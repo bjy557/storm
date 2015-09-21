@@ -55,7 +55,7 @@ public class CalcBolt extends BaseBasicBolt{
 			DBCursor cur = coll.find();
 			
 			for(DBObject doc : cur) {
-				mean = (int)doc.get("mean");
+				mean = Integer.parseInt(doc.get("mean").toString());
 				System.out.println("Receive mean is...   " + mean);
 			}
 			
