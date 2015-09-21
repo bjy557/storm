@@ -14,7 +14,6 @@ import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 
 public class CalcBolt extends BaseBasicBolt{
