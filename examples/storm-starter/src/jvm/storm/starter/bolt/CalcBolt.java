@@ -47,7 +47,6 @@ public class CalcBolt extends BaseBasicBolt{
 		
 		for(DBObject doc : cur) {
         	a = Integer.parseInt(doc.get("mean").toString());
-        	System.out.println(a);
         }
 		
 		BasicDBObject newDocument = new BasicDBObject();
@@ -87,11 +86,11 @@ public class CalcBolt extends BaseBasicBolt{
 				System.out.println(result[i]);
 			}
 			
-//			BasicDBObject newDocument = new BasicDBObject();
-//			newDocument.put("mean", Integer.getInteger(result[0]));
-//			BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
-//			
-//			coll.update(searchQuery, newDocument);
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put("mean", Integer.getInteger(result[0]));
+			BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
+			
+			coll.update(searchQuery, newDocument);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("error!!!!!!");
