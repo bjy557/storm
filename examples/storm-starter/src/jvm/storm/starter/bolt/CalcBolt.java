@@ -6,6 +6,7 @@ import org.rosuda.REngine.Rserve.RConnection;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
@@ -37,26 +38,30 @@ public class CalcBolt extends BaseBasicBolt{
 	DBCollection coll = db.getCollection("mean");
 	/********************************************************************/
 	
-	// get mean data from DB
-	DBObject dbo = coll.findOne();
-	int mean = (int) dbo.get("mean");
-	
-	
 	// save mean value change to string
 	static String s_mean = "";
 	
 	// save receive data
 	static String r_data = "";
 	
+	// get mean value from DB
+	static int mean = 0;
+	
 	@Override
 	public void execute(Tuple tuple, BasicOutputCollector collector){
 		// TODO Auto-generated method stub
 		try {
+			
+			DBCursor cur = coll.find();
+			
+			for(DBObject doc : cur) {
+				mean = (int)doc.get("mean");
+				System.out.println("Receive mean is...   " + mean);
+			}
+			
 			r_data = tuple.getString(0);
 			s_mean = String.valueOf(mean);
 			System.out.println("Receive data is...  " + r_data);
-			
-			System.out.println("mean value is...    " + mean);
 			
 			REXP data = RQuery(MASTER, "mean(c(" + s_mean+ "," + r_data +"))");
 			String[] result = data.asStrings();
