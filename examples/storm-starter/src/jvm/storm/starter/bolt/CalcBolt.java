@@ -43,13 +43,13 @@ public class CalcBolt extends BaseBasicBolt{
 	static String r_data = "";
 		
 	// get mean value from DB
-	static int mean = 0;
+	static double mean = 0;
 	
-	public int mongo(String ip, int port, String dbname) throws Exception{
+	public double mongo(String ip, int port, String dbname) throws Exception{
 		m_cli = new MongoClient(new ServerAddress(ip,port));
 		db = m_cli.getDB(dbname);
 		
-		int a = 0;
+		double a = 0;
 		
 		coll = db.getCollection("mean");
 		DBCursor cur = coll.find();
@@ -64,7 +64,7 @@ public class CalcBolt extends BaseBasicBolt{
 	public void update(String result)
 	{
 		BasicDBObject newDocument = new BasicDBObject();
-		newDocument.put("mean", Integer.parseInt(result));
+		newDocument.put("mean", Double.parseDouble(result));
 		BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
 		
 		coll.update(searchQuery, newDocument);
