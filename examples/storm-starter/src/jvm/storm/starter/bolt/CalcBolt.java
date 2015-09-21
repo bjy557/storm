@@ -14,6 +14,7 @@ import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
 import backtype.storm.tuple.Tuple;
+import ch.qos.logback.core.net.SyslogOutputStream;
 
 
 public class CalcBolt extends BaseBasicBolt{
@@ -41,6 +42,7 @@ public class CalcBolt extends BaseBasicBolt{
 	DBObject dbo = coll.findOne();
 	int mean = (int) dbo.get("mean");
 	
+	
 	// save mean value change to string
 	static String s_mean = "";
 	
@@ -54,6 +56,8 @@ public class CalcBolt extends BaseBasicBolt{
 			r_data = tuple.getString(0);
 			s_mean = String.valueOf(mean);
 			System.out.println("Receive data is...  " + r_data);
+			
+			System.out.println("mean value is...    " + mean);
 			
 			REXP data = RQuery(MASTER, "mean(c(" + s_mean+ "," + r_data +"))");
 			String[] result = data.asStrings();
