@@ -25,18 +25,40 @@ public class CalcBolt extends BaseBasicBolt{
 	static RConnection MASTER = RConnect(R_host, R_port);
 	/*****************************************************/
 	
-	
 	/*********************************************** init to DB Server  */
 	static String m_ip = "163.180.117.72";
 	static int m_port = 40000;
-	MongoClient m_cli = new MongoClient(new ServerAddress(m_ip, m_port));
+	MongoClient m_cli = null;
+	
+	DBCollection coll = null;
 	
 	// connect DB
-	DB db = m_cli.getDB("kocom_db");
-	
-	// connect Collection
-	DBCollection coll = db.getCollection("mean");
+	DB db = null;
 	/********************************************************************/
+	
+	public int mongo(String ip, int port, String dbname) throws Exception{
+		m_cli = new MongoClient(new ServerAddress(ip,port));
+		db = m_cli.getDB(dbname);
+		
+		int a = 0;
+		
+		coll = db.getCollection("mean");
+		DBCursor cur = coll.find();
+		
+		for(DBObject doc : cur) {
+        	a = (int)doc.get("mean");
+        	System.out.println(a);
+        }
+		
+		BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put("mean", 100);
+        
+        BasicDBObject searchQuery = new BasicDBObject().append("mean",140);
+        
+        coll.update(searchQuery, newDocument);
+        
+       return a;
+	}
 	
 	// save mean value change to string
 	static String s_mean = "";
@@ -52,12 +74,7 @@ public class CalcBolt extends BaseBasicBolt{
 		// TODO Auto-generated method stub
 		try {
 			
-			DBCursor cur = coll.find();
-			
-			for(DBObject doc : cur) {
-				mean = Integer.parseInt(doc.get("mean").toString());
-				System.out.println("Receive mean is...   " + mean);
-			}
+			mean = mongo(m_ip,m_port,"kocom_db");
 			
 			r_data = tuple.getString(0);
 			s_mean = String.valueOf(mean);
@@ -70,11 +87,11 @@ public class CalcBolt extends BaseBasicBolt{
 				System.out.println(result[i]);
 			}
 			
-			BasicDBObject newDocument = new BasicDBObject();
-			newDocument.put("mean", Integer.getInteger(result[0]));
-			BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
-			
-			coll.update(searchQuery, newDocument);
+//			BasicDBObject newDocument = new BasicDBObject();
+//			newDocument.put("mean", Integer.getInteger(result[0]));
+//			BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
+//			
+//			coll.update(searchQuery, newDocument);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("error!!!!!!");
