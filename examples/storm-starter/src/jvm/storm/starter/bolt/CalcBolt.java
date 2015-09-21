@@ -3,6 +3,13 @@ package storm.starter.bolt;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
+
 import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseBasicBolt;
@@ -11,30 +18,55 @@ import backtype.storm.tuple.Tuple;
 
 public class CalcBolt extends BaseBasicBolt{
 
-	static String HOST = "163.180.117.72";
-	static int PORT = 6311;
+	/********************************* init to R Server  */
+	static String R_host = "163.180.117.72";
+	static int R_port = 6311;
+	static RConnection MASTER = RConnect(R_host, R_port);
+	/*****************************************************/
 	
-	static int mean = 0;
 	
+	/*********************************************** init to DB Server  */
+	static String m_ip = "163.180.117.72";
+	static int m_port = 40000;
+	MongoClient m_cli = new MongoClient(new ServerAddress(m_ip, m_port));
+	
+	// connect DB
+	DB db = m_cli.getDB("kocom_db");
+	
+	// connect Collection
+	DBCollection coll = db.getCollection("mean");
+	/********************************************************************/
+	
+	// get mean data from DB
+	DBObject dbo = coll.findOne();
+	int mean = (int) dbo.get("mean");
+	
+	// save mean value change to string
 	static String s_mean = "";
-	static String temp = "";
 	
-	static RConnection MASTER = RConnect(HOST, PORT);
+	// save receive data
+	static String r_data = "";
 	
 	@Override
 	public void execute(Tuple tuple, BasicOutputCollector collector){
 		// TODO Auto-generated method stub
 		try {
-			temp = tuple.getString(0);
+			r_data = tuple.getString(0);
 			s_mean = String.valueOf(mean);
-			System.out.println("Receive data is...  " + temp);
+			System.out.println("Receive data is...  " + r_data);
 			
-			REXP data = RQuery(MASTER, "mean(c(" + s_mean+ "," + temp +"))");
+			REXP data = RQuery(MASTER, "mean(c(" + s_mean+ "," + r_data +"))");
 			String[] result = data.asStrings();
 			
 			for(int i=0 ; i< result.length ; i++) {
 				System.out.println(result[i]);
 			}
+			
+			BasicDBObject newDocument = new BasicDBObject();
+			newDocument.put("mean", Integer.getInteger(result[0]));
+			BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
+			
+			coll.update(searchQuery, newDocument);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("error!!!!!!");
