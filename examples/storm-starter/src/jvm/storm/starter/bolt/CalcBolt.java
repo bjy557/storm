@@ -57,17 +57,19 @@ public class CalcBolt extends BaseBasicBolt{
 		for(DBObject doc : cur) {
         	a = Integer.parseInt(doc.get("mean").toString());
         }
+		
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.put("mean", 123.12);
+		BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
+		
+		coll.update(searchQuery, newDocument);
         
        return a;
 	}
 	
 	public void update(String result)
 	{
-		BasicDBObject newDocument = new BasicDBObject();
-		newDocument.put("mean", Double.parseDouble(result));
-		BasicDBObject searchQuery = new BasicDBObject().append("mean", mean);
 		
-		coll.update(searchQuery, newDocument);
 	}
 
 	@Override
