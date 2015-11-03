@@ -75,7 +75,7 @@ public class CalcBolt extends BaseBasicBolt{
 		// TODO Auto-generated method stub
 		try {
 			
-			mean = mongo(m_ip,m_port,"kocom_db");
+//			mean = mongo(m_ip,m_port,"kocom_db");
 			
 			r_data = tuple.getString(0);
 			s_mean = String.valueOf(mean);
@@ -88,7 +88,7 @@ public class CalcBolt extends BaseBasicBolt{
 				System.out.println(result[i]);
 			}
 			
-			update(result[0]);
+//			update(result[0]);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
